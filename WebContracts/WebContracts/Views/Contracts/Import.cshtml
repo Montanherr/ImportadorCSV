@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Import Contracts";
+}
+
+<h2>Import Contracts from CSV</h2>
+
+<form asp-controller="Contracts" asp-action="Import" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="csvFile">CSV File</label>
+        <input type="file" name="csvFile" class="form-control" accept=".csv" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Import</button>
+</form>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Success"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

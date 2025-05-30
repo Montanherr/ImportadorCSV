@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebContracts", "WebContracts\WebContracts.csproj", "{E8DEF4EC-731E-4C74-B54B-4B073835F238}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2B30556-6241-4C84-811B-E100823C1127}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{45FD6375-B33C-4F0E-AEEF-C779A6241CB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8DEF4EC-731E-4C74-B54B-4B073835F238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8DEF4EC-731E-4C74-B54B-4B073835F238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8DEF4EC-731E-4C74-B54B-4B073835F238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8DEF4EC-731E-4C74-B54B-4B073835F238}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
