@@ -16,7 +16,8 @@ namespace WebContracts.Models
         public string con_contractNumber { get; set; }
         public string con_product { get; set; }
         public DateTime con_dueDate { get; set; }
-        public decimal con_mount { get; set; }
+        public decimal con_amount { get; set; }
+
 
         [ForeignKey("im_id")]
         public Import Import { get; set; }

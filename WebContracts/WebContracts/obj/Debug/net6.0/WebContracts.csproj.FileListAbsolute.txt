@@ -79,3 +79,4 @@ C:\Projetos\projeto_importador\WebContracts\WebContracts\obj\Debug\net6.0\ref\We
 C:\Projetos\projeto_importador\WebContracts\WebContracts\bin\Debug\net6.0\Humanizer.dll
 C:\Projetos\projeto_importador\WebContracts\WebContracts\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Projetos\projeto_importador\WebContracts\WebContracts\bin\Debug\net6.0\CsvHelper.dll
+C:\Projetos\projeto_importador\WebContracts\WebContracts\obj\Debug\net6.0\WebContracts.sourcelink.json

@@ -1,0 +1,36 @@
+﻿@model List<WebContracts.Models.Contract>
+@{
+    ViewData["Title"] = "Contracts List";
+}
+
+<h2>Imported Contracts</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>CPF</th>
+            <th>Contract #</th>
+            <th>Product</th>
+            <th>Due Date</th>
+            <th>Amount</th>
+            <th>File Imported</th>
+            <th>Import Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.con_customerName</td>
+                <td>@c.con_cpf</td>
+                <td>@c.con_contractNumber</td>
+                <td>@c.con_product</td>
+                <td>@c.con_dueDate.ToString("dd/MM/yyyy")</td>
+                <td>@c.con_amount.ToString("C")</td>
+                <td>@c.Import?.im_fileName</td>
+                <td>@c.Import?.im_dateImport.ToString("dd/MM/yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

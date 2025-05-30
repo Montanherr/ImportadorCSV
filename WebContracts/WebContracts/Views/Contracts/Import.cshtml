@@ -11,6 +11,9 @@
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Import</button>
+    <a asp-controller="Contracts" asp-action="Index" class="btn btn-primary">
+        View Imported Contracts
+    </a>
 </form>
 
 @if (TempData["Success"] != null)

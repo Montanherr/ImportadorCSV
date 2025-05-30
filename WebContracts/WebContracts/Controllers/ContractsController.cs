@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using WebContracts.Data;
 using WebContracts.Models;
@@ -24,6 +25,17 @@ namespace WebContracts.Controllers
             return View();
         }
 
+        [HttpGet] // Metódo responsável por trazer as consultas de contratos
+        public async Task<IActionResult> Index()
+        {
+            var contracts = await _context.Contracts
+                .Include(c => c.Import)
+                .OrderByDescending(c => c.con_dueDate)
+                .ToListAsync();
+
+            return View(contracts);
+        }
+
         // Processa o upload e a leitura do CSV de contratos
         [HttpPost]
         public async Task<IActionResult> Import(IFormFile csvFile)
@@ -35,10 +47,10 @@ namespace WebContracts.Controllers
                 return View();
             }
 
-            // 🔐 Simula um usuário logado (por enquanto está fixo, mas o ideal é pegar do contexto de autenticação)
+            //  Simula um usuário logado (por enquanto está fixo, mas o ideal é pegar do contexto de autenticação)
             int currentUserId = 1;
 
-            // 📝 Cria um novo registro na tabela Imports para registrar essa importação
+            //  Cria um novo registro na tabela Imports para registrar essa importação
             var import = new Import
             {
                 im_fileName = csvFile.FileName,
@@ -79,7 +91,7 @@ namespace WebContracts.Controllers
                             con_contractNumber = record.contractNumber,
                             con_product = record.product,
                             con_dueDate = record.dueDate,
-                            con_mount = record.amount // Atenção: o nome na tabela é "con_mount"
+                            con_amount = record.amount 
                         };
 
                         contracts.Add(contract);
