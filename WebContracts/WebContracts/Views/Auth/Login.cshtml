@@ -1,35 +1,87 @@
 ﻿@model WebContracts.Models.LoginViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Entrar";
+    Layout = "_Layout"; // ou null se quiser tela totalmente limpa
 }
 
-<h2 class="mt-4">Login</h2>
+<style>
+    .login-container {
+        margin-top: 60px;
+        padding: 40px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-<div class="row justify-content-center mt-3">
-    <div class="col-md-6">
-        <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    .login-title {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        font-size: 1.8rem;
+        color: #333;
+    }
 
-            <div class="form-group mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+    .alert-warning {
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="login-container">
+
+                <!-- Título principal -->
+                <h2 class="login-title">Acesse sua conta</h2>
+
+                <!-- Mensagem de alerta (ex: sessão expirada) -->
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @ViewBag.Message
+                    </div>
+                }
+
+                <!-- Início do formulário de login -->
+                <form asp-action="Login" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <!-- Campo de e-mail -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="form-label">E-mail</label>
+                        <input asp-for="Email" class="form-control" placeholder="seuemail@exemplo.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Campo de senha -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Password" class="form-label">Senha</label>
+                        <input asp-for="Password" class="form-control" type="password" placeholder="********" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <!-- Botão de login -->
+                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    <!-- Botão de registro -->
+                    <a href="/Auth/Register" class="btn btn-lg btn-primary mt-3">
+                        Criar Conta
+                    </a>
+
+                </form>
+                <!-- Fim do formulário -->
             </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-        </form>
+        </div>
     </div>
 </div>
 
+<!-- Scripts de validação do lado do cliente -->
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @Html.Partial("_ValidationScriptsPartial")
 }

@@ -1,36 +1,59 @@
 ﻿@{
-    ViewData["Title"] = "Import Contracts";
+    ViewData["Title"] = "Importar Contratos";
 }
 
-<h2>Import Contracts from CSV</h2>
+<div class="container mt-5">
+    <div class="card shadow-lg rounded">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-upload"></i> Importar Contratos via CSV
+            </h4>
+        </div>
 
-<form asp-controller="Contracts" asp-action="Import" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="csvFile">CSV File</label>
-        <input type="file" name="csvFile" class="form-control" accept=".csv" required />
-    </div>
+        <div class="card-body">
+            <p class="text-muted">
+                Selecione um arquivo CSV contendo os dados dos contratos para importar. Certifique-se de que o arquivo esteja no formato correto.
+            </p>
 
-    <button type="submit" class="btn btn-primary mt-3">Import</button>
-    <a asp-controller="Contracts" asp-action="Index" class="btn btn-primary">
-        View Imported Contracts
-    </a>
-</form>
+            <form asp-controller="Contracts" asp-action="Import" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="csvFile"><strong>Escolha o Arquivo CSV</strong></label>
+                    <input type="file" name="csvFile" class="form-control" accept=".csv" required />
+                    <small class="form-text text-muted">
+                        Formato aceito: <code>.csv</code> | Exemplo de cabeçalhos: <em>ContractId, Description, StartDate, EndDate</em>
+                    </small>
+                </div>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success mt-3">
-        @TempData["Success"]
-    </div>
-}
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success me-2">
+                        <i class="bi bi-file-earmark-arrow-up"></i> Importar
+                    </button>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger mt-3">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    <a asp-controller="Contracts" asp-action="Index" class="btn btn-outline-primary">
+                        <i class="bi bi-table"></i> Ver Contratos Importados
+                    </a>
+                </div>
+            </form>
+
+            @if (TempData["Success"] != null)
             {
-                <li>@error.ErrorMessage</li>
+                <div class="alert alert-success mt-4">
+                    <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+                </div>
             }
-        </ul>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-4">
+                    <h5><i class="bi bi-exclamation-triangle-fill"></i> Corrija os seguintes erros:</h5>
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
     </div>
-}
+</div>

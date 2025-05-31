@@ -90,7 +90,7 @@ namespace WebContracts.Controllers
                             con_cpf = record.cpf,
                             con_contractNumber = record.contractNumber,
                             con_product = record.product,
-                            con_dueDate = (DateTime)record.dueDate,
+                            con_dueDate = record.dueDate,
                             con_amount = record.amount 
                         };
 

@@ -7,20 +7,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-        <a class="navbar-brand" href="/">WebContracts</a>
-        <div class="collapse navbar-collapse">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm">
+        <a class="navbar-brand fw-bold" href="/">WebContracts</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/">Início</a>
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
+      
                     <li class="nav-item">
-                        <a class="nav-link" href="/Imports">Imports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Contracts/Import">Import Contracts</a>
+                        <a class="nav-link" href="/Contracts/Import">Importar Contratos</a>
                     </li>
                 }
             </ul>
@@ -28,28 +32,30 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="/Auth/Logout">Logout (@User.Identity.Name)</a>
+                        <a class="nav-link" href="/Auth/Logout">Sair (@User.Identity.Name)</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="/Auth/Login">Login</a>
+                        <a class="nav-link" href="/Auth/Login">Entrar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Auth/Register">Register</a>
+                        <a class="nav-link" href="/Auth/Register">Registrar</a>
                     </li>
                 }
             </ul>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <!-- Conteúdo principal -->
+    <main class="container mt-4 mb-5">
         @RenderBody()
-    </div>
+    </main>
 
-    <footer class="text-center text-muted mt-5 mb-3">
-        &copy; 2025 - WebContracts
+    <!-- Rodapé -->
+    <footer class="text-center text-muted py-3 border-top">
+        &copy; 2025 - WebContracts. Todos os direitos reservados.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

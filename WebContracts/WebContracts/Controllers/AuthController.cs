@@ -14,105 +14,128 @@ namespace WebContracts.Controllers
     {
         private readonly AppDbContext _context;
 
-        // Construtor que injeta o contexto do banco de dados
+        // Construtor do controlador: injeta o contexto do banco de dados
         public AuthController(AppDbContext context)
         {
             _context = context;
         }
 
-        // Exibe a tela de login (GET /Auth/Login)
+        // =============================
+        // EXIBE A TELA DE LOGIN (GET)
+        // =============================
+        // Quando o usuário acessa a URL /Auth/Login, essa ação exibe a tela de login.
+        // Se a sessão tiver expirado, uma mensagem de aviso será exibida.
         public IActionResult Login()
         {
+            if (Request.Query["expired"] == "true")
+            {
+                ViewBag.Message = "Sua sessão expirou. Por favor, faça login novamente.";
+            }
+
             return View();
         }
 
-        // Processa o login do usuário (POST /Auth/Login)
+        // ===============================
+        // PROCESSA O LOGIN DO USUÁRIO (POST)
+        // ===============================
+        // Essa ação recebe os dados do formulário de login, valida e realiza a autenticação.
+        // Se o e-mail e a senha estiverem corretos, o usuário é autenticado com cookies.
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            // Se os dados enviados não são válidos (ex: campos vazios), volta para a tela com os erros
+            // Verifica se os campos foram preenchidos corretamente
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Busca o usuário no banco com base no e-mail informado
+            // Busca o usuário no banco de dados pelo e-mail informado
             var user = _context.Users.FirstOrDefault(u => u.UserEmail == model.Email);
 
-            // Se não encontrar o usuário, retorna erro genérico
+            // Se o usuário não for encontrado, retorna erro
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid credentials.");
+                ModelState.AddModelError("", "Credenciais inválidas.");
                 return View(model);
             }
 
-            // Verifica se a senha informada confere com o hash salvo no banco
+            // Verifica se a senha fornecida confere com o hash salvo no banco
             var hasher = new PasswordHasher<User>();
             var result = hasher.VerifyHashedPassword(user, user.UserPasswordHash, model.Password);
 
             if (result == PasswordVerificationResult.Failed)
             {
-                ModelState.AddModelError("", "Invalid credentials.");
+                ModelState.AddModelError("", "Credenciais inválidas.");
                 return View(model);
             }
 
-            // Se chegou aqui, as credenciais estão corretas
-            // Define os "claims" que serão usados na autenticação (nome, ID etc.)
+            // Se as credenciais forem válidas, cria os dados de autenticação (claims)
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
 
-            // Cria uma identidade e um principal com esses claims
+            // Cria a identidade do usuário com base nos claims
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            // Realiza o login via cookies (autenticação persistente no navegador)
+            // Faz o login do usuário usando cookies (sessão persistente)
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            // Redireciona para a página inicial após o login
+            // Exibe mensagem de sucesso após o login
+            TempData["Success"] = "Login realizado com sucesso!";
             return RedirectToAction("Index", "Home");
         }
 
-        // Encerra a sessão do usuário (GET /Auth/Logout)
+        // ========================
+        // ENCERRA A SESSÃO (LOGOUT)
+        // ========================
+        // Quando o usuário clica em "Sair", essa ação encerra a sessão e redireciona para o login.
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            TempData["Success"] = "Você saiu do sistema com sucesso.";
             return RedirectToAction("Login");
         }
 
-        // Exibe o formulário de registro de novo usuário
+        // =============================
+        // EXIBE A TELA DE CADASTRO (GET)
+        // =============================
+        // Quando o usuário acessa /Auth/Register, essa ação exibe o formulário de criação de conta.
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        // Processa o registro do novo usuário (POST /Auth/Register)
+        // ========================================
+        // PROCESSA O CADASTRO DE NOVO USUÁRIO (POST)
+        // ========================================
+        // Essa ação valida os dados enviados no formulário, verifica se o e-mail e o nome de usuário já existem,
+        // cria um novo usuário e salva no banco de dados com a senha protegida por hash.
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto request)
         {
-            // Verifica se os dados estão válidos
+            // Verifica se todos os campos foram preenchidos corretamente
             if (!ModelState.IsValid)
                 return View(request);
 
-            // Valida se o e-mail já está sendo usado por outro usuário
+            // Verifica se o e-mail já está cadastrado
             if (await _context.Users.AnyAsync(u => u.UserEmail == request.UserEmail))
             {
-                ModelState.AddModelError("UserEmail", "Email already in use.");
+                ModelState.AddModelError("UserEmail", "Este e-mail já está em uso.");
                 return View(request);
             }
 
-            // Valida se o nome de usuário já está sendo usado
+            // Verifica se o nome de usuário já está em uso
             if (await _context.Users.AnyAsync(u => u.UserName == request.UserName))
             {
-                ModelState.AddModelError("UserName", "Username already in use.");
+                ModelState.AddModelError("UserName", "Este nome de usuário já está em uso.");
                 return View(request);
             }
 
-            // Cria o hash da senha para não armazená-la em texto claro
+            // Cria um novo usuário com a senha criptografada (hash)
             var hasher = new PasswordHasher<User>();
 
-            // Cria o novo objeto de usuário com os dados informados
             var user = new User
             {
                 UserName = request.UserName,
@@ -124,7 +147,8 @@ namespace WebContracts.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Direciona para a tela de login após o cadastro
+            // Mensagem de sucesso após criação da conta
+            TempData["Success"] = "Conta criada com sucesso! Agora você pode fazer login.";
             return RedirectToAction("Login");
         }
     }

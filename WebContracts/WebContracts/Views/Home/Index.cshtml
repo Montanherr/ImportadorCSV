@@ -1,8 +1,63 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Início";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-body text-center p-5">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h1 class="display-5 fw-bold text-success">Bem-vindo de volta!</h1>
+                        <p class="lead mt-3 mb-4">
+                            Pronto para importar mais contratos?
+                        </p>
+                        <a href="/Contracts/Import" class="btn btn-lg btn-success mt-3">
+                            Ir para Importação de Contratos
+                        </a>
+                    }
+                    else
+                    {
+                        <h1 class="display-5 fw-bold text-primary">Bem-vindo ao WebContracts</h1>
+                        <p class="lead mt-3 mb-4">
+                            Este sistema foi desenvolvido para facilitar a <strong>importação, organização e consulta de contratos</strong> a partir de arquivos CSV.
+                            <br />
+                            E quem sabe, se tudo funcionar quase direitinho... <em>talvez a Concilig me contrate 😄</em>
+                        </p>
+
+                        <hr class="my-4" />
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 text-start">
+                                <h5 class="mb-3 text-secondary">O que você pode fazer aqui:</h5>
+                                <ul class="list-group list-group-flush mb-4">
+                                    <li class="list-group-item">
+                                        Importar contratos a partir de arquivos <strong>.csv</strong>.
+                                    </li>
+                                    <li class="list-group-item">
+                                        Visualizar e filtrar contratos já importados.
+                                    </li>
+                                    <li class="list-group-item">
+                                        Consultar o histórico de importações realizadas.
+                                    </li>
+                                    <li class="list-group-item">
+                                        Sistema com autenticação de usuários.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <a href="/Auth/Login" class="btn btn-lg btn-primary mt-3">
+                            Fazer login
+                        </a>
+
+                        <p class="text-muted mt-4">
+                            Precisa de ajuda? Entre em contato conosco no canal <a href="https://concilig.com.br/fale-conosco/" target="_blank">Fale Conosco</a>.
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

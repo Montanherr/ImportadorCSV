@@ -15,6 +15,25 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Auth/Login";           // Caminho para a tela de login
         options.LogoutPath = "/Auth/Logout";         // Caminho para logout
         options.AccessDeniedPath = "/Auth/AccessDenied"; // Caminho para acesso negado (não finalizado)
+
+        // TOKEN DA APLICAÇÃO
+
+        // Por padrão vai expirar após 30 minutos
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+
+        // E depois direcionar para /Auth/Login?expired=true 
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = context =>
+            {
+                if (context.Request.Path != "/Auth/Login" && context.Response.StatusCode == 200)
+                {
+                    context.Response.Redirect("/Auth/Login?expired=true");
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 // Autorização (requerido após autenticação)
@@ -37,8 +56,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Middleware de autenticação e autorização (ORDENAÇÃO IMPORTA!)
-app.UseAuthentication(); // <- Necessário ANTES do UseAuthorization
+// Middleware de autenticação e autorização 
+app.UseAuthentication(); // Necessário ser antes do UseAuthorization por conta da ordem
 app.UseAuthorization();
 
 // Mapeamento de rotas
