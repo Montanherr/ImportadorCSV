@@ -10,10 +10,7 @@ public class ContractCsvMaps : ClassMap<ContractCsv>
         Map(m => m.cpf).Name("cpf");
         Map(m => m.contractNumber).Name("contractNumber");
         Map(m => m.product).Name("product");
-        Map(m => m.dueDate)
-            .Name("dueDate")
-            .TypeConverterOption
-            .Format("dd/MM/yyyy"); // formato correto do CSV
+        Map(m => m.dueDate).Name("dueDate").TypeConverterOption.Format("dd/MM/yyyy");
         Map(m => m.amount).Name("amount");
     }
 }
