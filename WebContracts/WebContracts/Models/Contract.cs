@@ -1,11 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebContracts.Converters;
 
 namespace WebContracts.Models
 {
     public class Contract
     {
+        internal DateTime con_dueDate;
+
         [Key]
         public int con_id { get; set; }
 
@@ -15,7 +19,9 @@ namespace WebContracts.Models
         public string con_cpf { get; set; }
         public string con_contractNumber { get; set; }
         public string con_product { get; set; }
-        public DateTime con_dueDate { get; set; }
+
+        [TypeConverter(typeof(CustomDateTimeConverter))]
+        public DateTime dueDate { get; set; }
         public decimal con_amount { get; set; }
 
 

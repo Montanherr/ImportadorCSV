@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using WebContracts.Converters;
 
 namespace WebContracts.Models
 {

@@ -14,7 +14,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Auth/Login";           // Caminho para a tela de login
         options.LogoutPath = "/Auth/Logout";         // Caminho para logout
-        options.AccessDeniedPath = "/Auth/AccessDenied"; // Caminho para acesso negado (opcional)
+        options.AccessDeniedPath = "/Auth/AccessDenied"; // Caminho para acesso negado (não finalizado)
     });
 
 // Autorização (requerido após autenticação)
