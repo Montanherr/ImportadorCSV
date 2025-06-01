@@ -38,5 +38,5 @@ Visualizar os arquivos já importados
 
 ⚠️ Atenção: O token de autenticação expira após 30 minutos. Após esse tempo, será necessário fazer login novamente.
 
-❓ Suporte
+
 Em caso de dúvidas ou problemas, estamos à disposição para ajudar!
